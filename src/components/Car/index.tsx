@@ -3,8 +3,10 @@ import { TouchableOpacityProps } from 'react-native';
 import { RectButtonProps } from 'react-native-gesture-handler';
 
 import GasolineSvg from '../../assets/gasoline.svg';
+import { CarDTO } from '../../DTOs/CarDTO';
+import { getAccessoryIcon } from '../../utils/getAccessoryIcon';
 
-import  { 
+import {
     Container,
     Details,
     Brand,
@@ -15,44 +17,35 @@ import  {
     Price,
     Type,
     CarImage
- } from './styles';
+} from './styles';
 
-interface CarData {
-    brand: string;
-    name: string;
-    rent: {
-        period: string;
-        price: number;
-    },
-    thumbnail: string;
-}
-
-interface Props extends TouchableOpacityProps{
-    data: CarData;
+interface Props extends TouchableOpacityProps {
+    data: CarDTO;
 }
 export function Car({ data, ...rest }: Props) {
-  return (
-    <Container {...rest}>
-        <Details>
-            <Brand>{data?.brand}</Brand>
-            <Name>{data?.name}</Name>
+    const MotorIcon = getAccessoryIcon(data.fuel_type)
+    return (
+        <Container {...rest}>
+            <Details>
+                <Brand>{data?.brand}</Brand>
+                <Name>{data?.name}</Name>
 
-            <About>
-                <Rent>
-                    <Period>{data?.rent.period}</Period>
-                    <Price>{`R$ ${data?.rent.price}`}</Price>
-                </Rent>
+                <About>
+                    <Rent>
+                        <Period>{data?.rent.period}</Period>
+                        <Price>{`R$ ${data?.rent.price}`}</Price>
+                    </Rent>
 
-                <Type>
-                    <GasolineSvg />
-                </Type>
-            </About>
-        </Details>
+                    <Type>
+                        <MotorIcon />
+                    </Type>
+                </About>
+            </Details>
 
-        <CarImage 
-            source={{uri: data?.thumbnail}}
-            resizeMode="contain"
+            <CarImage
+                source={{ uri: data?.thumbnail }}
+                resizeMode="contain"
             />
-    </Container>
-  );
+        </Container>
+    );
 }
